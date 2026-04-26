@@ -1,0 +1,554 @@
+/* ==========================================================================
+   Japan Quake Energy — Cursor-inspired warm minimalism
+   ========================================================================== */
+
+:root {
+  /* Surfaces (warm cream scale) */
+  --surface-100: #f7f7f4;
+  --surface-200: #f2f1ed;
+  --surface-300: #ebeae5;
+  --surface-400: #e6e5e0;
+  --surface-500: #e1e0db;
+
+  /* Text */
+  --text: #26251e; /* warm near-black */
+  --text-muted: rgba(38, 37, 30, 0.55);
+  --text-soft: rgba(38, 37, 30, 0.75);
+
+  /* Accents */
+  --accent: #f54e00; /* orange — links, brand */
+  --gold: #c08532; /* secondary accent */
+  --error: #cf2d56; /* warm crimson — hover/danger */
+  --success: #1f8a65; /* muted teal */
+
+  /* Borders (oklab perceptual fallbacks) */
+  --border: rgba(38, 37, 30, 0.1);
+  --border-medium: rgba(38, 37, 30, 0.2);
+  --border-strong: rgba(38, 37, 30, 0.55);
+
+  /* Shadows */
+  --shadow-ambient: 0 0 16px rgba(0, 0, 0, 0.02), 0 0 8px rgba(0, 0, 0, 0.008);
+  --shadow-elevated:
+    0 28px 70px rgba(0, 0, 0, 0.14), 0 14px 32px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(38, 37, 30, 0.1);
+  --shadow-focus: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* Type stacks */
+  --font-display:
+    "CursorGothic", "Inter", system-ui, -apple-system, "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  --font-serif:
+    "jjannon", "Iowan Old Style", "Palatino Linotype", Palatino,
+    "URW Palladio L", ui-serif, Georgia, Cambria, "Times New Roman", Times,
+    serif;
+  --font-mono:
+    "berkeleyMono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Noto Sans JP", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body {
+  background: var(--surface-200);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Subtle warm tonal background — replaces the old teal grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      1200px 600px at 100% -10%,
+      rgba(245, 78, 0, 0.04),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 110%,
+      rgba(192, 133, 50, 0.05),
+      transparent 60%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 80px 32px 64px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+header {
+  margin-bottom: 48px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  background: var(--surface-400);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  margin-bottom: 20px;
+}
+.badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(245, 78, 0, 0.12);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(38px, 6vw, 72px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+h1 em {
+  font-family: var(--font-serif);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+h1 .accent {
+  color: var(--accent);
+}
+
+.subtitle {
+  font-family: var(--font-serif);
+  font-size: 17.28px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Seismograph card
+   ========================================================================== */
+.seismo-wrap {
+  background: var(--surface-100);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 24px 16px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-ambient);
+}
+
+.seismo-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.seismo-label .live::before {
+  content: "●";
+  color: var(--accent);
+  margin-right: 6px;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+canvas#seismo {
+  width: 100%;
+  height: 72px;
+  display: block;
+}
+
+.seismo-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 1px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+.seismo-axis span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.seismo-axis span:first-child {
+  transform: translateX(0);
+}
+.seismo-axis span:last-child {
+  transform: translateX(0);
+}
+.seismo-axis small {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: rgba(38, 37, 30, 0.35);
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Stat grid
+   ========================================================================== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--surface-400);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  transition:
+    box-shadow 200ms ease,
+    border-color 150ms ease;
+}
+.stat-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-ambient);
+}
+
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.stat-card.is-accent .stat-value {
+  color: var(--accent);
+}
+
+.stat-unit {
+  font-family: var(--font-serif);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   Comparison
+   ========================================================================== */
+.compare-section {
+  background: var(--surface-400);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 28px 28px 24px;
+  margin-bottom: 24px;
+}
+
+.compare-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.compare-row {
+  margin-bottom: 18px;
+}
+.compare-row:last-of-type {
+  margin-bottom: 0;
+}
+
+.compare-row-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  gap: 16px;
+}
+
+.compare-name {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: var(--text);
+}
+
+.compare-val {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.bar-track {
+  height: 6px;
+  background: var(--surface-500);
+  border-radius: 9999px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+  width: 0;
+}
+
+.bar-quake {
+  background: var(--accent);
+}
+.bar-human {
+  background: var(--gold);
+}
+
+.ratio-display {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.ratio-display .big-num {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+  margin: 8px 0 4px;
+}
+
+/* ==========================================================================
+   Quake list
+   ========================================================================== */
+.list-section {
+  background: var(--surface-100);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 1fr 90px 130px 120px;
+  gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.quake-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 130px 120px;
+  gap: 12px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  align-items: center;
+  transition: background 150ms ease;
+}
+.quake-row:last-child {
+  border-bottom: 0;
+}
+.quake-row:hover {
+  background: var(--surface-200);
+}
+
+.quake-place {
+  font-family: var(--font-serif);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.quake-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.mag-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  border: 1px solid var(--border);
+}
+.mag-low {
+  color: var(--success);
+  background: rgba(31, 138, 101, 0.08);
+  border-color: rgba(31, 138, 101, 0.18);
+}
+.mag-mid {
+  color: var(--gold);
+  background: rgba(192, 133, 50, 0.1);
+  border-color: rgba(192, 133, 50, 0.22);
+}
+.mag-high {
+  color: var(--error);
+  background: rgba(207, 45, 86, 0.08);
+  border-color: rgba(207, 45, 86, 0.22);
+}
+
+.quake-energy {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Status / formula / footer
+   ========================================================================== */
+.status-msg {
+  padding: 32px 24px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.dot-flash::after {
+  content: "...";
+  animation: dots 1.2s steps(4, end) infinite;
+}
+@keyframes dots {
+  0%,
+  20% {
+    content: ".";
+  }
+  40% {
+    content: "..";
+  }
+  60%,
+  100% {
+    content: "...";
+  }
+}
+
+.formula-note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: var(--surface-300);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+.formula-note .accent {
+  color: var(--accent);
+}
+
+#update-time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 20px;
+  text-align: right;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 720px) {
+  .container {
+    padding: 48px 20px 48px;
+  }
+  header {
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+
+  .list-header,
+  .quake-row {
+    grid-template-columns: 1fr 70px 100px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .list-header > :nth-child(4),
+  .quake-row > :nth-child(4) {
+    display: none;
+  }
+
+  .compare-section {
+    padding: 22px 20px;
+  }
+  .ratio-display .big-num {
+    font-size: 36px;
+  }
+}

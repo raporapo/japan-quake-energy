@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日本の地震エネルギー観測所</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Serif+JP:wght@200..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="badge">Seismic Energy Monitor</div>
+        <h1>
+          日本の地震エネルギー<br />vs
+          <em class="accent">ヒトの消費カロリー</em>
+        </h1>
+        <p class="subtitle">
+          過去24時間に日本付近で発生した地震のエネルギーを、日本の1日あたりエネルギー消費量と比較する。
+        </p>
+      </header>
+
+      <section class="seismo-wrap" aria-label="seismograph">
+        <div class="seismo-label">
+          <span>Seismograph — Live Render</span>
+          <span class="live">Recording</span>
+        </div>
+        <canvas id="seismo"></canvas>
+        <div class="seismo-axis" id="seismo-axis" aria-hidden="true"></div>
+      </section>
+
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Earthquakes / 24h</div>
+          <div class="stat-value" id="count">—</div>
+          <div class="stat-unit">件（日本周辺）</div>
+        </div>
+        <div class="stat-card is-accent">
+          <div class="stat-label">Total Energy</div>
+          <div class="stat-value" id="total-j">—</div>
+          <div class="stat-unit">
+            <span id="total-unit">J</span> ・ 24時間合計
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Max Magnitude</div>
+          <div class="stat-value" id="max-mag">—</div>
+          <div class="stat-unit">M（最大震源）</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Japan Daily Energy</div>
+          <div class="stat-value">47.9</div>
+          <div class="stat-unit">PJ/日（国内一次エネルギー）</div>
+        </div>
+      </section>
+
+      <section class="compare-section">
+        <div class="compare-title">Energy Comparison</div>
+
+        <div class="compare-row">
+          <div class="compare-row-label">
+            <span class="compare-name">地震の総放出エネルギー（24h）</span>
+            <span class="compare-val" id="bar-quake-val">—</span>
+          </div>
+          <div class="bar-track">
+            <div
+              class="bar-fill bar-quake"
+              id="bar-quake"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+
+        <div class="compare-row">
+          <div class="compare-row-label">
+            <span class="compare-name"
+              >日本の1日エネルギー消費量（一次エネルギー）</span
+            >
+            <span class="compare-val">47900 TJ</span>
+          </div>
+          <div class="bar-track">
+            <div
+              class="bar-fill bar-human"
+              id="bar-human"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+
+        <div class="ratio-display" id="ratio-text">データを取得中です</div>
+      </section>
+
+      <section class="list-section">
+        <div class="list-header">
+          <span>震源地</span>
+          <span>M</span>
+          <span>エネルギー</span>
+          <span>発生時刻</span>
+        </div>
+        <div id="quake-list">
+          <div class="status-msg dot-flash">USGSからデータを取得中</div>
+        </div>
+        <div class="formula-note">
+          変換式
+          <span class="accent">log₁₀(E) = 1.5M + 4.8</span
+          >　|　日本の一次エネルギー総供給
+          <span class="accent">17.5 EJ/年 ≈ 47.9 PJ/日</span>（資源エネルギー庁
+          エネルギー白書2023）
+        </div>
+      </section>
+
+      <div id="update-time"></div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
